@@ -1,0 +1,35 @@
+*- Este es un comentario de bloque -*
+
+init {
+    valor1, valor2 : Float
+    contador, indice, total : Int
+    nombre, apellido, ciudad, pais : String
+}
+
+*- Asignaciones de valores flotantes -*
+valor1 := 99999.99
+valor1 := 99.
+valor1 := .9999
+
+*- Asignaciones de cadenas de texto -*
+nombre := "@sdADaSjfla%dfg"
+nombre := "asldk  fh sjf"
+
+*- Asignación de un valor entero -*
+contador := 2
+
+*- Estructura condicional -*
+si (valor1 > valor2) {
+    escribir("valor1 es mayor que valor2")
+} sino {
+    escribir("valor1 es menor o igual a valor2")
+}
+
+*- Estructura de bucle mientras -*
+mientras (valor1 > valor2) {
+    escribir("valor1 es mayor que valor2")
+    valor1 := valor1 + 1
+}
+
+*- Ejemplo de variable que excede el límite de caracteres -*
+*- pais := "asdasdasdasdasdasdasdwrqwqrwqrqwr121525125125125sasfsafasfasrf124421125125" -*

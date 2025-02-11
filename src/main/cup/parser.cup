@@ -1,0 +1,225 @@
+package unlam.compiler;
+
+import java_cup.runtime.*;
+import unlam.compiler.entities.SymbolTableEntry;
+import java.util.ArrayList;
+import java.util.List;
+
+class Parser;
+
+parser code
+{:
+	//SymbolTableStruct currentSymbol;
+	//public List<SymbolTableStruct> symbolList = new ArrayList();
+:};
+
+// Terminals
+terminal OP_ASIG, OP_MAS, OP_RES, OP_MULT, OP_DIV;
+terminal PAR_A, PAR_C, LLAVE_A, LLAVE_C;
+terminal CONST_ENT, CONST_STR, CONST_FLT;
+terminal ID, MIENTRAS, OP_MAY, OP_MEN, OP_IG, OP_MAYIG, OP_MENIG;
+terminal FOR, SI, SINO, AND, OR, FLOAT, INT, STRING;
+terminal PYC, READ, WRITE, INIT, NOT, DOS_PUNTOS, COMA;
+terminal COR_A, COR_C;
+
+// Non Terminals
+non terminal ss, declaracion, listadec, sentdec, programa, sentencia;
+non terminal asignacion, listaid, iteracion, seleccion, entrada, salida;
+non terminal condicion, comparacion, comparador, expresion, funcion, listaconst;
+non terminal termino, factor;
+
+// Start Symbol Definition
+start with ss;
+
+// Grammar Rules
+
+// Programa principal
+ss
+    ::= declaracion programa
+        {: System.out.println("Inicio de programa principal con bloque de declaracion de variables: "); :}
+    |   declaracion
+        {: System.out.println("Inicio del programa principal con declaracion y sin programa: "); :}
+    |   programa
+        {: System.out.println("Inicio del programa principal sin declaracion: "); :}
+    |
+        {: System.out.println("Sin nada: "); :}
+    ;
+
+// Declaraciones
+declaracion
+    ::= INIT LLAVE_A listadec LLAVE_C
+        {: System.out.println("Declaracion de variables: "); :}
+    ;
+
+listadec
+    ::= listadec sentdec
+        {: System.out.println("Lista de sentencia de declaracion de variables: "); :}
+    |   sentdec
+        {:
+            System.out.println("Sentencia unica de declaracion de variables: ");
+            //symbolList.add(currentSymbol);
+        :}
+    ;
+
+sentdec
+    ::= listaid DOS_PUNTOS INT
+        {: System.out.println("Lista de variables enteras: "); :}
+    |   listaid DOS_PUNTOS FLOAT
+        {: System.out.println("Lista de variables flotantes: "); :}
+    |   listaid DOS_PUNTOS STRING
+        {: System.out.println("Lista de variables strings: "); :}
+    ;
+
+listaid
+    ::= listaid COMA ID
+        {: System.out.println("Lista de IDs: "); :}
+    |   ID:ident
+    ;
+
+// Programa y sentencias
+programa
+    ::= sentencia
+        {: System.out.println("Sentencia única en el programa: "); :}
+    |   sentencia PYC
+        {: System.out.println("Sentencia con punto y coma en el programa: "); :}
+    |   programa sentencia
+        {: System.out.println("Programa con múltiples sentencias: "); :}
+    |   programa sentencia PYC
+        {: System.out.println("Programa con múltiples sentencias: "); :}
+    ;
+
+sentencia
+    ::= asignacion
+        {: System.out.println("Asignación encontrada"); :}
+    |   iteracion
+        {: System.out.println("Iteración encontrada"); :}
+    |   seleccion
+        {: System.out.println("Selección encontrada"); :}
+    |   entrada
+        {: System.out.println("Entrada: "); :}
+    |   salida
+        {: System.out.println("Salida: "); :}
+    ;
+
+// Entrada y salida
+entrada
+    ::= READ PAR_A ID PAR_C
+        {: System.out.println("Sentencia de Entrada: "); :}
+    ;
+
+salida
+    ::= WRITE PAR_A CONST_STR PAR_C
+        {: System.out.println("Sentencia de entrada de una constante string: "); :}
+    |   WRITE PAR_A ID PAR_C
+        {: System.out.println("Sentencia de entrada de un id: "); :}
+    ;
+
+// Asignación
+asignacion
+    ::= listaid OP_ASIG expresion
+        {: System.out.println("Lista de asignacion de variables: "); :}
+    ;
+
+// Selección (if-else)
+seleccion
+    ::= SI PAR_A condicion PAR_C LLAVE_A programa LLAVE_C
+        {: System.out.println("Estructura if con condición: "); :}
+    |   SI PAR_A condicion PAR_C LLAVE_A programa LLAVE_C SINO LLAVE_A programa LLAVE_C
+        {: System.out.println("Estructura if-else con condición: "); :}
+    ;
+
+// Iteración (while, for)
+iteracion
+    ::= MIENTRAS PAR_A condicion PAR_C LLAVE_A programa LLAVE_C
+        {: System.out.println("Estructura while con condición: "); :}
+    |   FOR PAR_A asignacion PYC condicion PYC expresion PAR_C LLAVE_A programa LLAVE_C
+        {: System.out.println("Estructura for con asignación: " + ", condición: " + ", y expresión: "); :}
+    ;
+
+// Condiciones
+condicion
+    ::= comparacion
+        {: System.out.println("Condición simple: "); :}
+    |   condicion AND comparacion
+        {: System.out.println("Condición compuesta con AND: " + " && "); :}
+    |   condicion OR comparacion
+        {: System.out.println("Condición compuesta con OR: " + " || "); :}
+    ;
+
+comparacion
+    ::= expresion comparador expresion
+        {: System.out.println("Comparación: "); :}
+    |   NOT expresion comparador expresion
+        {: System.out.println("Comparación: "); :}
+    ;
+
+comparador
+    ::= OP_MAYIG
+        {: System.out.println("Comparador >= "); :}
+    |   OP_MENIG
+        {: System.out.println("Comparador <= "); :}
+    |   OP_MAY
+        {: System.out.println("Comparador > "); :}
+    |   OP_MEN
+        {: System.out.println("Comparador < "); :}
+    |   OP_IG
+        {: System.out.println("Comparador == "); :}
+    ;
+
+// Expresiones
+expresion
+    ::= expresion OP_MAS termino
+        {: System.out.println("Expresión suma: "); :}
+    |   expresion OP_RES termino
+        {: System.out.println("Expresión resta: "); :}
+    |   termino
+        {: System.out.println("Expresión simple: "); :}
+    |   funcion
+        {: System.out.println("Expresion es Funcion especial: "); :}
+    ;
+
+listaconst
+    ::= listaconst COMA CONST_ENT
+        {: System.out.println("Componente de lista: Constante entera "); :}
+    |   listaconst COMA CONST_FLT
+        {: System.out.println("Componente de lista: Constante flotante "); :}
+    |   CONST_FLT
+        {: System.out.println("Constante entera: "); :}
+    |   CONST_ENT
+        {: System.out.println("Constante entera: "); :}
+    ;
+
+// Términos y factores
+termino
+    ::= termino OP_MULT factor
+        {: System.out.println("Término multiplicación: "); :}
+    |   termino OP_DIV factor
+        {: System.out.println("Término división: " + " / "); :}
+    |   factor
+        {: System.out.println("Término simple: "); :}
+    ;
+
+factor
+    ::= ID:value
+        {:
+            System.out.println("Factor ID: ");
+            //currentSymbol = new SymbolTableStruct(null,null,null,0);
+        :}
+    |   CONST_ENT:value
+        {:
+            System.out.println("Factor constante entera: ");
+            //symbolList.add(new SymbolTableStruct("_".concat(value.toString()),"Int",value,0));
+        :}
+    |   CONST_FLT:value
+        {:
+            System.out.println("Factor constante flotante: ");
+            //symbolList.add(new SymbolTableStruct("_".concat(value.toString()),"Float",value,0));
+        :}
+    |   CONST_STR:value
+        {:
+            System.out.println("Factor constante string: ");
+            //symbolList.add(new SymbolTableStruct("_".concat(value.toString()),"String",value,value.toString().length()));
+        :}
+    |   PAR_A expresion PAR_C
+        {: System.out.println("Factor expresión entre paréntesis: "); :}
+    ;
