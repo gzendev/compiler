@@ -43,8 +43,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 Identation =  [ \t\f]
 
-Comment = \*-([^\r?\n])*?-\*
-SingleLineComment = "//"{InputCharacter}*
+Comment = #+([^\r?\n])*?+#
 
 Letter = [a-zA-Z]
 Digit = [0-9]
@@ -53,7 +52,7 @@ Arroba = "@"
 Percent = "%"
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*
-IntegerConstant = [-]?{Digit}+
+IntegerConstant = {Digit}+
 StringConstant = {DoubleQuote}({Letter}|{Digit}|{WhiteSpace}|{Arroba}|{Percent})+{DoubleQuote}
 FloatConstants = {Digit}+[.]{Digit}+ | [.]{Digit}+ | {Digit}+[.]
 
@@ -61,7 +60,7 @@ Plus = "+"
 Mult = "*"
 Sub = "-"
 Div = "/"
-Assig = ":="
+Assig = "="
 OpenBracket = "("
 CloseBracket = ")"
 OpenCurly = "{"
@@ -78,15 +77,15 @@ DosPuntos = ":"
 
 /* Operators */
 <YYINITIAL> {
-  {Plus}          { System.out.println("Token: " + yytext() + " | Tipo: OP_MAS"); return symbol(ParserSym.OP_MAS, yytext()); }
-  {Sub}           { System.out.println("Token: " + yytext() + " | Tipo: OP_RES"); return symbol(ParserSym.OP_RES, yytext()); }
-  {Mult}          { System.out.println("Token: " + yytext() + " | Tipo: OP_MULT"); return symbol(ParserSym.OP_MULT, yytext()); }
-  {Div}           { System.out.println("Token: " + yytext() + " | Tipo: OP_DIV"); return symbol(ParserSym.OP_DIV, yytext()); }
-  {Assig}         { System.out.println("Token: " + yytext() + " | Tipo: OP_ASIG"); return symbol(ParserSym.OP_ASIG, yytext()); }
-  {OpenBracket}   { System.out.println("Token: " + yytext() + " | Tipo: PAR_A"); return symbol(ParserSym.PAR_A, yytext()); }
-  {CloseBracket}  { System.out.println("Token: " + yytext() + " | Tipo: PAR_C"); return symbol(ParserSym.PAR_C, yytext()); }
-  {OpenCurly}     { System.out.println("Token: " + yytext() + " | Tipo: LLAVE_A"); return symbol(ParserSym.LLAVE_A, yytext()); }
-  {CloseCurly}    { System.out.println("Token: " + yytext() + " | Tipo: LLAVE_C"); return symbol(ParserSym.LLAVE_C, yytext()); }
+  {Plus}          { System.out.println("Token: " + yytext() + " | Tipo: PLUS"); return symbol(ParserSym.PLUS, yytext()); }
+  {Sub}           { System.out.println("Token: " + yytext() + " | Tipo: SUB"); return symbol(ParserSym.SUB, yytext()); }
+  {Mult}          { System.out.println("Token: " + yytext() + " | Tipo: MULT    "); return symbol(ParserSym.MULT, yytext()); }
+  {Div}           { System.out.println("Token: " + yytext() + " | Tipo: DIV"); return symbol(ParserSym.DIV, yytext()); }
+  {Assig}         { System.out.println("Token: " + yytext() + " | Tipo: ASSIG"); return symbol(ParserSym.ASSIG, yytext()); }
+  {OpenBracket}   { System.out.println("Token: " + yytext() + " | Tipo: OPEN_BRACKET"); return symbol(ParserSym.OPEN_BRACKET, yytext()); }
+  {CloseBracket}  { System.out.println("Token: " + yytext() + " | Tipo: CLOSE_BRACKET"); return symbol(ParserSym.CLOSE_BRACKET, yytext()); }
+  {OpenCurly}     { System.out.println("Token: " + yytext() + " | Tipo: OPEN_CURLY"); return symbol(ParserSym.OPEN_CURLY, yytext()); }
+  {CloseCurly}    { System.out.println("Token: " + yytext() + " | Tipo: CLOSE_CURLY"); return symbol(ParserSym.CLOSE_CURLY, yytext()); }
   {CorcheteAbre}  { System.out.println("Token: " + yytext() + " | Tipo: COR_A"); return symbol(ParserSym.COR_A, yytext()); }
   {CorcheteCierra} { System.out.println("Token: " + yytext() + " | Tipo: COR_C"); return symbol(ParserSym.COR_C, yytext()); }
   {Op_men}        { System.out.println("Token: " + yytext() + " | Tipo: OP_MEN"); return symbol(ParserSym.OP_MEN, yytext()); }
@@ -97,9 +96,9 @@ DosPuntos = ":"
 }
 
 /* Keywords */
-<YYINITIAL> "mientras"  { System.out.println("Token: " + yytext() + " | Tipo: MIENTRAS"); return symbol(ParserSym.MIENTRAS); }
-<YYINITIAL> "si"        { System.out.println("Token: " + yytext() + " | Tipo: SI"); return symbol(ParserSym.SI); }
-<YYINITIAL> "sino"      { System.out.println("Token: " + yytext() + " | Tipo: SINO"); return symbol(ParserSym.SINO); }
+<YYINITIAL> "while"     { System.out.println("Token: " + yytext() + " | Tipo: WHILE"); return symbol(ParserSym.WHILE); }
+<YYINITIAL> "if"        { System.out.println("Token: " + yytext() + " | Tipo: IF"); return symbol(ParserSym.IF); }
+<YYINITIAL> "else"      { System.out.println("Token: " + yytext() + " | Tipo: ELSE"); return symbol(ParserSym.ELSE); }
 <YYINITIAL> "init"      { System.out.println("Token: " + yytext() + " | Tipo: INIT"); return symbol(ParserSym.INIT); }
 <YYINITIAL> "AND"       { System.out.println("Token: " + yytext() + " | Tipo: AND"); return symbol(ParserSym.AND); }
 <YYINITIAL> "OR"        { System.out.println("Token: " + yytext() + " | Tipo: OR"); return symbol(ParserSym.OR); }
@@ -107,18 +106,20 @@ DosPuntos = ":"
 <YYINITIAL> "Float"     { System.out.println("Token: " + yytext() + " | Tipo: FLOAT"); return symbol(ParserSym.FLOAT); }
 <YYINITIAL> "Int"       { System.out.println("Token: " + yytext() + " | Tipo: INT"); return symbol(ParserSym.INT); }
 <YYINITIAL> "String"    { System.out.println("Token: " + yytext() + " | Tipo: STRING"); return symbol(ParserSym.STRING); }
-<YYINITIAL> "leer"      { System.out.println("Token: " + yytext() + " | Tipo: READ"); return symbol(ParserSym.READ); }
-<YYINITIAL> "escribir"  { System.out.println("Token: " + yytext() + " | Tipo: WRITE"); return symbol(ParserSym.WRITE); }
+<YYINITIAL> "read"      { System.out.println("Token: " + yytext() + " | Tipo: READ"); return symbol(ParserSym.READ); }
+<YYINITIAL> "write"     { System.out.println("Token: " + yytext() + " | Tipo: WRITE"); return symbol(ParserSym.WRITE); }
+<YYINITIAL> "reorder"   { System.out.println("Token: " + yytext() + " | Tipo: REORDER"); return symbol(ParserSym.REORDER); }
+<YYINITIAL> "sliceAndConcat" { System.out.println("Token: " + yytext() + " | Tipo: SLICEANDCONCAT"); return symbol(ParserSym.SLICEANDCONCAT); }
 
 /* Identifiers */
 <YYINITIAL> {
   {Identifier} {
     if (yytext().length() > 50) {
-      throw new ExceededLengthException("Identifier too long: " + yytext());
+      throw new InvalidLengthException("Identifier too long: " + yytext());
     }
-    System.out.println("Token: " + yytext() + " | Tipo: ID");
+    System.out.println("Token: " + yytext() + " | Tipo: IDENTIFIER");
     addSymbolIfNotExists(new SymbolTableEntry("_".concat(yytext()), null, null, 0));
-    return symbol(ParserSym.ID, yytext());
+    return symbol(ParserSym.IDENTIFIER, yytext());
   }
 }
 
@@ -128,26 +129,26 @@ DosPuntos = ":"
     try {
       Integer.parseInt(yytext());
     } catch (NumberFormatException e) {
-      throw new InvalidNumericException("Invalid integer constant: " + yytext());
+      throw new InvalidIntegerException("Invalid integer constant: " + yytext());
     }
-    System.out.println("Token: " + yytext() + " | Tipo: CONST_ENT");
+    System.out.println("Token: " + yytext() + " | Tipo: INTEGER_CONSTANT");
     addSymbolIfNotExists(new SymbolTableEntry("_".concat(yytext()), "Int", yytext(), 0));
-    return symbol(ParserSym.CONST_ENT, yytext());
+    return symbol(ParserSym.INTEGER_CONSTANT, yytext());
   }
 
   {FloatConstants} {
-    System.out.println("Token: " + yytext() + " | Tipo: CONST_FLT");
+    System.out.println("Token: " + yytext() + " | Tipo: FLOAT_CONSTANT");
     addSymbolIfNotExists(new SymbolTableEntry("_".concat(yytext()), "Float", yytext(), 0));
-    return symbol(ParserSym.CONST_FLT, yytext());
+    return symbol(ParserSym.FLOAT_CONSTANT, yytext());
   }
 
   {StringConstant} {
     if (yytext().length() > 50) {
-      throw new ExceededLengthException("String constant too long: " + yytext());
+      throw new InvalidLengthException("String constant too long: " + yytext());
     }
-    System.out.println("Token: " + yytext() + " | Tipo: CONST_STR");
+    System.out.println("Token: " + yytext() + " | Tipo: STRING_CONSTANT");
     addSymbolIfNotExists(new SymbolTableEntry("_".concat(yytext()), "String", yytext(), yytext().length()));
-    return symbol(ParserSym.CONST_STR, yytext());
+    return symbol(ParserSym.STRING_CONSTANT, yytext());
   }
 }
 
@@ -155,8 +156,7 @@ DosPuntos = ":"
 <YYINITIAL> {
   {WhiteSpace}    { /* ignore */ }
   {Comment}       { /* ignore */ }
-  {SingleLineComment} { /* ignore */ }
 }
 
 /* Error fallback */
-[^] { throw new UnrecognizedSymbolException(yytext()); }
+[^] { throw new UnknownCharacterException(yytext()); }

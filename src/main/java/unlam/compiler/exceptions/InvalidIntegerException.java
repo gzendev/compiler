@@ -2,16 +2,16 @@ package unlam.compiler.exceptions;
 
 import java.io.Serial;
 
-public class InvalidNumericException extends CompilationException {
+public class InvalidIntegerException extends CompilationException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public InvalidNumericException() {
+    public InvalidIntegerException() {
         super("Invalid numeric value encountered.");
     }
 
-    public InvalidNumericException(String message) {
+    public InvalidIntegerException(String message) {
         super(message);
     }
 }

@@ -2,16 +2,16 @@ package unlam.compiler.exceptions;
 
 import java.io.Serial;
 
-public class ExceededLengthException extends CompilationException {
+public class InvalidLengthException extends CompilationException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public ExceededLengthException() {
+    public InvalidLengthException() {
         super("Exceeded allowed length.");
     }
 
-    public ExceededLengthException(String message) {
+    public InvalidLengthException(String message) {
         super(message);
     }
 }

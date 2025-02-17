@@ -1,0 +1,5 @@
+#+Función reorder+#
+
+reorder([x+3, 1+1, 9-x],1,2)  #+ la primer posición es cero +#
+
+reorder([r*j-2, x+3, 1+1, 9-x],0,2)  #+ la primer posición es cero +#

@@ -1,0 +1,6 @@
+#+Función sliceAndConcat+#
+init {
+    x, z : Int
+}
+
+x = sliceAndConcat(3, 6, "amarillo", "verde", 0)

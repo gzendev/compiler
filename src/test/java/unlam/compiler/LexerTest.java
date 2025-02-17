@@ -1,9 +1,9 @@
 package unlam.compiler;
 
 import unlam.compiler.exceptions.CompilationException;
-import unlam.compiler.exceptions.ExceededLengthException;
-import unlam.compiler.exceptions.InvalidNumericException;
-import unlam.compiler.exceptions.UnrecognizedSymbolException;
+import unlam.compiler.exceptions.InvalidIntegerException;
+import unlam.compiler.exceptions.InvalidLengthException;
+import unlam.compiler.exceptions.UnknownCharacterException;
 import unlam.compiler.services.LexicalSyntacticServiceImpl;
 import unlam.compiler.services.interfaces.ILexicalSyntacticService;
 import org.apache.commons.text.CharacterPredicates;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unlam.compiler.constants.Constants;
-
 import java.io.IOException;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,68 +27,65 @@ public class LexerTest {
     }
 
     @Test
-    public void shouldIgnoreComments() throws Exception {
-        analyze("*- This is a comment -*");
+    public void comment() throws Exception{
+        analyze("#+This is a comment+#");
         assertThat(nextToken()).isEqualTo(ParserSym.EOF);
     }
 
     @Test
-    public void shouldHandleCommentWithCode() throws Exception {
-        analyze("*- Variable declaration -*\n x := \"This is a string literal\";");
-        assertThat(nextToken()).isEqualTo(ParserSym.ID);
-        assertThat(nextToken()).isEqualTo(ParserSym.OP_ASIG);
-        assertThat(nextToken()).isEqualTo(ParserSym.CONST_STR);
-        assertThat(nextToken()).isEqualTo(ParserSym.PYC);
-        assertThat(nextToken()).isEqualTo(ParserSym.EOF);
-    }
-
-    @Test
-    public void shouldThrowExceptionForLongString() {
-        assertThrows(ExceededLengthException.class, () -> {
-            analyze("\"" + getRandomString() + "\"");
+    public void invalidStringConstantLength() {
+        assertThrows(InvalidLengthException.class, () -> {
+            analyze("\"%s\"".formatted(getRandomString()));
             nextToken();
         });
     }
 
     @Test
-    public void shouldThrowExceptionForLongIdentifier() {
-        assertThrows(ExceededLengthException.class, () -> {
+    public void invalidIdLength() {
+        assertThrows(InvalidLengthException.class, () -> {
             analyze(getRandomString());
             nextToken();
         });
     }
 
     @Test
-    public void shouldThrowExceptionForOutOfRangeInteger() {
-        assertThrows(InvalidNumericException.class, () -> {
-            analyze("999999999999999999999");
+    public void invalidPositiveIntegerConstantValue() {
+        assertThrows(InvalidIntegerException.class, () -> {
+            analyze("%d".formatted(9223372036854775807L));
             nextToken();
         });
     }
 
     @Test
-    public void shouldRecognizeAssignmentWithExpression() throws Exception {
-        analyze("x := y + (z - 10) / 2;");
+    public void invalidNegativeIntegerConstantValue() {
+        assertThrows(InvalidIntegerException.class, () -> {
+            analyze("%d".formatted(9223372036854775807L));
+            nextToken();
+        });
+    }
 
-        assertThat(nextToken()).isEqualTo(ParserSym.ID);
-        assertThat(nextToken()).isEqualTo(ParserSym.OP_ASIG);
-        assertThat(nextToken()).isEqualTo(ParserSym.ID);
-        assertThat(nextToken()).isEqualTo(ParserSym.OP_MAS);
-        assertThat(nextToken()).isEqualTo(ParserSym.PAR_A);
-        assertThat(nextToken()).isEqualTo(ParserSym.ID);
-        assertThat(nextToken()).isEqualTo(ParserSym.OP_RES);
-        assertThat(nextToken()).isEqualTo(ParserSym.CONST_ENT);
-        assertThat(nextToken()).isEqualTo(ParserSym.PAR_C);
-        assertThat(nextToken()).isEqualTo(ParserSym.OP_DIV);
-        assertThat(nextToken()).isEqualTo(ParserSym.CONST_ENT);
-        assertThat(nextToken()).isEqualTo(ParserSym.PYC);
+
+    @Test
+    public void assignmentWithExpressions() throws Exception {
+        analyze("c=d*(e-21)/4");
+        assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
+        assertThat(nextToken()).isEqualTo(ParserSym.ASSIG);
+        assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
+        assertThat(nextToken()).isEqualTo(ParserSym.MULT);
+        assertThat(nextToken()).isEqualTo(ParserSym.OPEN_BRACKET);
+        assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
+        assertThat(nextToken()).isEqualTo(ParserSym.SUB);
+        assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
+        assertThat(nextToken()).isEqualTo(ParserSym.CLOSE_BRACKET);
+        assertThat(nextToken()).isEqualTo(ParserSym.DIV);
+        assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
         assertThat(nextToken()).isEqualTo(ParserSym.EOF);
     }
 
     @Test
-    public void shouldThrowExceptionForUnknownCharacter() {
-        assertThrows(UnrecognizedSymbolException.class, () -> {
-            analyze("@");
+    public void unknownCharacter() {
+        assertThrows(UnknownCharacterException.class, () -> {
+            analyze("#");
             nextToken();
         });
     }
