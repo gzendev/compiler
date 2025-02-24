@@ -13,6 +13,9 @@ public interface ILexicalSyntacticService {
 
     Parser createParser(String in);
 
-    Lexer parser(final String fileName) throws Exception;
+    void parser(final String fileName) throws Exception;
+
+    Lexer getLexer();
+    Parser getParser();
 
 }

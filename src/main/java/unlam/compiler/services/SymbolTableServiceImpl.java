@@ -15,9 +15,7 @@ import java.nio.file.Paths;
 
 @Service
 public class SymbolTableServiceImpl implements ISymbolTableService {
-
-    public SymbolTableServiceImpl() {}
-
+    
     @Override
     public void generate(String fileName, Lexer lexer) throws Exception {
         Path path = Paths.get(Constants.OUTPUT_DIRECTORY);

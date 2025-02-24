@@ -70,6 +70,7 @@ CorcheteCierra = "]"
 Semicolon = ";"
 Op_men = "<"
 Op_may = ">"
+Distinct  = "!="
 Coma = ","
 DosPuntos = ":"
 
@@ -103,6 +104,7 @@ DosPuntos = ":"
 <YYINITIAL> "AND"       { System.out.println("Token: " + yytext() + " | Tipo: AND"); return symbol(ParserSym.AND); }
 <YYINITIAL> "OR"        { System.out.println("Token: " + yytext() + " | Tipo: OR"); return symbol(ParserSym.OR); }
 <YYINITIAL> "NOT"       { System.out.println("Token: " + yytext() + " | Tipo: NOT"); return symbol(ParserSym.NOT); }
+<YYINITIAL> "DISTINCT"  { System.out.println("Token: " + yytext() + " | Tipo: DISTINCT"); return symbol(ParserSym.DISTINCT); }
 <YYINITIAL> "Float"     { System.out.println("Token: " + yytext() + " | Tipo: FLOAT"); return symbol(ParserSym.FLOAT); }
 <YYINITIAL> "Int"       { System.out.println("Token: " + yytext() + " | Tipo: INT"); return symbol(ParserSym.INT); }
 <YYINITIAL> "String"    { System.out.println("Token: " + yytext() + " | Tipo: STRING"); return symbol(ParserSym.STRING); }

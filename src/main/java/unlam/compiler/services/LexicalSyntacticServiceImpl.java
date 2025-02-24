@@ -10,6 +10,9 @@ import java.io.*;
 @Service
 public class LexicalSyntacticServiceImpl implements ILexicalSyntacticService {
 
+    private Lexer lexer;
+    private Parser parser;
+
     public LexicalSyntacticServiceImpl() {}
 
     @Override
@@ -32,14 +35,21 @@ public class LexicalSyntacticServiceImpl implements ILexicalSyntacticService {
         return new Parser(new Lexer(new StringReader(in)));
     }
 
+    public Lexer getLexer() {
+        return lexer;
+    }
+
+    public Parser getParser() {
+        return parser;
+    }
+
     @Override
-    public Lexer parser(final String in) throws Exception {
+    public void parser(final String in) throws Exception {
         try {
             Reader reader = new BufferedReader(new FileReader(in));
-            Lexer lexer = new Lexer(reader);
-            Parser parser = new Parser(lexer);
-            parser.parse();
-            return lexer;
+            this.lexer = new Lexer(reader);
+            this.parser = new Parser(lexer);
+            this.parser.parse();
         } catch (Exception e) {
             throw new Exception(Constants.MSG_PARSINNG_ERROR);
         }

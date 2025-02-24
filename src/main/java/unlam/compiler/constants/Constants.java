@@ -12,6 +12,7 @@ public final class Constants {
     public static final String SPACE = " ";
     public static final String OUTPUT_DIRECTORY  = "target/output";
     public static final String FILENAME_TS  = "symbol-table.txt";
+    public static final String FILENAME_IC  = "intermediate-code.txt";
     private static final String TABLE_HEADER_SEPARATOR = "\t\t\t\t\t\t";
     public static final List<String> TABLE_HEADER = List.of("NOMBRE", "TIPODATO", "VALOR", "LONGITUD");
     public static final String TABLE_HEADER_CONSOLE = "NOMBRE" + TABLE_HEADER_SEPARATOR + "TIPODATO" + TABLE_HEADER_SEPARATOR + "VALOR" + TABLE_HEADER_SEPARATOR + "LONGITUD";
