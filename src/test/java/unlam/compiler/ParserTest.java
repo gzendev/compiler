@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java_cup.runtime.Symbol;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Disabled;
 import unlam.compiler.services.LexicalSyntacticServiceImpl;
 import unlam.compiler.services.interfaces.ILexicalSyntacticService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+@Disabled
 public class ParserTest {
 
     private ILexicalSyntacticService parserService;

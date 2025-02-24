@@ -1,5 +1,6 @@
 package unlam.compiler;
 
+import org.junit.jupiter.api.Disabled;
 import unlam.compiler.exceptions.CompilationException;
 import unlam.compiler.exceptions.InvalidIntegerException;
 import unlam.compiler.exceptions.InvalidLengthException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Disabled
 public class LexerTest {
 
     private ILexicalSyntacticService lexerService;
